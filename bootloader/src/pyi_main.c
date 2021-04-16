@@ -144,6 +144,26 @@ pyi_main(int argc, char * argv[])
     if (extractionpath) {
         VS("LOADER: Already in the child - running user's code.\n");
 
+        #if defined(__APPLE__) && defined(WINDOWED)
+            process_apple_events (true);
+
+            if (argc_pyi /* > 0 */) {
+                char **_argv = (char **) calloc (argc + argc_pyi + 1, sizeof (char *));
+                int    _argc = 0;
+
+                for (char **_arg = argv; *_arg /* != (char *) NULL */; ++_arg)
+                    _argv[_argc++] = *_arg;
+
+                for (char **_arg = argv_pyi; *_arg /* != (char *) NULL */; ++_arg)
+                    _argv[_argc++] = *_arg;
+
+                archive_status->argc = _argc;
+                archive_status->argv = _argv;
+
+                VS("LOADER: Appending OpenDoc paths to argv.\n");
+            }
+        #endif
+
         /*  If binaries were extracted to temppath,
          *  we pass it through status variable
          */

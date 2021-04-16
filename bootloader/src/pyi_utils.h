@@ -52,4 +52,14 @@ int pyi_utils_create_child(const char *thisfile, const ARCHIVE_STATUS *status,
                            const int argc, char *const argv[]);
 int pyi_utils_set_environment(const ARCHIVE_STATUS *status);
 
+#if defined(__APPLE__) && defined(WINDOWED)
+extern char **argv_pyi;
+extern int argc_pyi;
+
+#include <Carbon/Carbon.h>  /* AppleEventsT */
+
+void process_apple_events(Boolean short_timeout);
+
+#endif
+
 #endif  /* HEADER_PY_UTILS_H */

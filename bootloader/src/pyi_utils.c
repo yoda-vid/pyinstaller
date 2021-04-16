@@ -90,8 +90,13 @@ typedef void (*sighandler_t)(int);
  *  (this is argv_emulation).  These variables must be of file global scope to be able to
  *  be accessed inside of the AppleEvents handlers.
  */
+#if 0
 static char **argv_pyi = NULL;
 static int argc_pyi = 0;
+#else
+char **argv_pyi = NULL;
+int argc_pyi = 0;
+#endif
 
 /*
  * Watch for OpenDocument AppleEvents and add the files passed in to the
@@ -101,7 +106,10 @@ static int argc_pyi = 0;
  * on the App icon in the OS X dock.
  */
 #if defined(__APPLE__) && defined(WINDOWED)
-static void process_apple_events(Boolean);
+#if 0
+static
+#endif
+void process_apple_events(Boolean);
 #endif
 
 
@@ -1451,7 +1459,10 @@ static OSStatus evt_handler_proc(EventHandlerCallRef href, EventRef eref, void *
 }
 
 /* Apple event message pump */
-static void process_apple_events(Boolean short_timeout)
+#if 0
+static
+#endif
+void process_apple_events(Boolean short_timeout)
 {
     static EventHandlerUPP handler;
     static AEEventHandlerUPP handler_ae;
